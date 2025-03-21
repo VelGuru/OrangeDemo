@@ -22,5 +22,15 @@ namespace OrangeDemo.TestCases
             string name = jsonData["Username"].ToString();
             string password = jsonData["Password"].ToString();
         }
+
+        [TestMethod]
+        public void TestMethod1()
+        {
+            string data = File.ReadAllText(ConfigurationManager.AppSettings["JsonData"]);
+
+            JObject jsonData = JObject.Parse(data);
+            string name = jsonData["Username"].ToString();
+            string password = jsonData["Password"].ToString();
+        }
     }
 }
