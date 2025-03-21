@@ -8,5 +8,6 @@ namespace OrangeDemo.Pages
 {
     public class TimePage
     {
+        public string DOB { get; set; }
     }
 }
