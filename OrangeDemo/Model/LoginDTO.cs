@@ -10,5 +10,6 @@ namespace OrangeDemo.Model
     {
         public string Username { get; set; }
         public string Password { get; set; }
+        public string DOB { get; set; }
     }
 }
