@@ -24,7 +24,7 @@ namespace OrangeDemo.TestCases
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void TestMethod2()
         {
             string data = File.ReadAllText(ConfigurationManager.AppSettings["JsonData"]);
 
