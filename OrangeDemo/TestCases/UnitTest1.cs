@@ -11,6 +11,7 @@ using OrangeDemo.Config;
 using OrangeDemo.Extension;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using AventStack.ExtentReports;
 
 namespace OrangeDemo
 {
@@ -34,10 +35,11 @@ namespace OrangeDemo
         [TestCategory("SmokeTest")]
         public void OrangeInvalidLogin()
         {
-
+            test.Log(Status.Info, "Entering the username");    
             driver.FindElement(LoginPage.txt_Username).SendKeys(ExcelReader.GetTestData("Login", "Username"));
             driver.FindElement(LoginPage.txt_Password).SendKeys(ExcelReader.GetTestData("Login", "Password"));
             driver.FindElement(LoginPage.btn_Login).Click();
+            test.Log(Status.Info, "Clicking on login button");
             Assert.IsTrue(driver.FindElement(LoginPage.lbl_warning).Displayed);
         }
 
@@ -45,12 +47,7 @@ namespace OrangeDemo
         public void AddEmployee()
         {
             driver.ClearAndSend(LoginPage.txt_Username, ExcelReader.GetTestData("Login", "Username"));
-
-
             driver.ClearAndSend(LoginPage.txt_Password, "admin123");
-
-
-
             driver.FindElement(LoginPage.btn_Login).Click();
             Assert.IsTrue(driver.FindElement(DashboardPage.lbl_Header).Displayed);
             driver.FindElement(DashboardPage.menu_PIM).Click();
@@ -80,9 +77,16 @@ namespace OrangeDemo
             WebDriverWait webDriverWait = new WebDriverWait(driver,TimeSpan.FromSeconds(10));
             webDriverWait.Until(ExpectedConditions.ElementIsVisible(ClaimPage.txt_refId));
             string _refid = driver.FindElement(ClaimPage.txt_refId).GetAttribute("value");
+            if( _refid == "" ) 
+            {
+                _refid = driver.FindElement(ClaimPage.txt_refId).GetAttribute("value");
+            }
+            driver.FindElement(ClaimPage.tab_myClaim).Click();
 
             string xpath = ClaimPage.refid(_refid);
 
+            webDriverWait.Until(ExpectedConditions.ElementIsVisible(By.XPath(xpath)));
+            Assert.IsTrue(driver.FindElement(By.XPath(xpath)).Displayed);
         }
 
         

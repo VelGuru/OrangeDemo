@@ -11,29 +11,68 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Edge;
 using System.Text.Json.Nodes;
 using System.IO;
+using AventStack.ExtentReports;
+using AventStack.ExtentReports.Reporter;
+using System.Security.Cryptography.Pkcs;
 
 namespace OrangeDemo.Config
 {
+    [TestClass]
     public class BasePage
     {
         public IWebDriver driver;
         public string JsonData;
+        public static ExtentReports extent;
+        public ExtentTest test; 
+        public TestContext TestContext { get; set; }
+
+        [AssemblyInitialize] // Runs once before any tests
+        public static void Setup(TestContext context)
+        {
+            string workingdir = Environment.CurrentDirectory;
+            string projectDir = Directory.GetParent(workingdir).Parent.FullName;
+            string latestpath =Directory.CreateDirectory(projectDir+ "\\Report\\"+"Test"+DateTime.Now.ToString("ddMMyyhhmmtt")).FullName;
+            string reportpath = latestpath +"\\index.html";
+
+            ExtentSparkReporter report = new ExtentSparkReporter(reportpath);
+            extent = new ExtentReports();
+            extent.AttachReporter(report);
+        }
 
         [TestInitialize]
         public void setup()
         {
+            test = extent.CreateTest(TestContext.TestName);
+
             InitBrowser(ConfigurationManager.AppSettings["browser"]);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(4);
             driver.Url = ConfigReader.getUrl(ConfigurationManager.AppSettings["env"]);
             JsonData = File.ReadAllText(ConfigurationManager.AppSettings["JsonData"]);
-
         }
+
+
 
         [TestCleanup]
         public void cleanUp()
         {
+            var status = TestContext.CurrentTestOutcome.ToString();
 
-            //driver.Quit();
+            if (status == "Failed")
+            {
+                test.Fail("Test Failed");
+            }
+            else
+            {
+
+            }
+            extent.Flush();
+            driver.Quit();
+        }
+
+        [AssemblyCleanup] // Runs once after all tests
+        public static void TearDown()
+        {
+            extent.Flush(); // Finalize report
         }
 
         public void InitBrowser(string browserName)

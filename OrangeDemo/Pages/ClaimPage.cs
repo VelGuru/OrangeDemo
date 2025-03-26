@@ -23,8 +23,15 @@ namespace OrangeDemo.Pages
 
         public static readonly By txt_refId = By.XPath("//label[text()='Reference Id']/following::input");
 
-        public static string refid(string text) => refid($"//div[contains(text(),'{text}')]");
+        public static string refid(string text) => $"//div[contains(text(),'{text}')]";
 
+
+        public static int add(int a, int b)
+        {
+            return a + b;
+        }
+
+        public static int sub(int a, int b) => a-b;
 
     }
 }

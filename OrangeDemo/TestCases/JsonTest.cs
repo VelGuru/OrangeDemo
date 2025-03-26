@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using OrangeDemo.Config;
 using OrangeDemo.Model;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace OrangeDemo.TestCases
 {
     
     [TestClass]
-    public class JsonTest
+    public class JsonTest :BasePage
     {
 
         [TestMethod]
