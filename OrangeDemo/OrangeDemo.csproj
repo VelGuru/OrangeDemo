@@ -197,6 +197,7 @@
     <Compile Include="Pages\PIMPage.cs" />
     <Compile Include="Pages\TimePage.cs" />
     <Compile Include="TestCases\JsonTest.cs" />
+    <Compile Include="TestCases\TimeCase.cs" />
     <Compile Include="TestCases\UnitTest2.cs" />
     <Compile Include="TestCases\UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
